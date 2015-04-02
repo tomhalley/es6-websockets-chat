@@ -1,4 +1,4 @@
 node_modules
 app/css/
 **/npm-debug.log
-app/js/
+app/js/.idea/
