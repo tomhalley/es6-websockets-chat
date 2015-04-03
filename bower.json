@@ -1,0 +1,19 @@
+{
+  "name": "es6-websockets-chat",
+  "version": "0.0.0",
+  "homepage": "https://github.com/tomhalley89/es6-websockets-chat",
+  "authors": [
+    "Tom Halley <tomhalley89@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3"
+  }
+}

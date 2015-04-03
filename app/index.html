@@ -4,15 +4,23 @@
     <meta charset="UTF-8">
     <title></title>
 
-    <script type="text/javascript" src="js/WebSocket.js"></script>
+    <script type="text/javascript" src="lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <link rel="stylesheet" href="css/main.css" media="screen" />
 </head>
 <body>
-    <div id="chatbox"></div>
-    <form>
-        <fieldset>
-            <input type="text" placeholder="Enter message" />
-            <input type="submit" />
-        </fieldset>
-    </form>
+    <main>
+        <div id="chatbox">
+            <textarea readonly="readonly"></textarea>
+            <select multiple></select>
+        </div>
+        <form>
+            <fieldset>
+                <input type="text" placeholder="Enter message" />
+                <input type="submit" />
+            </fieldset>
+        </form>
+    </main>
 </body>
 </html>
