@@ -1,12 +1,8 @@
-var WebSocketServer = require("ws").Server,
-    ws = new WebSocketServer({host: "192.168.1.9", port: 8000});
+var constant = require("./../src/shared/Constants"),
+    WebSocketServer = require("ws").Server,
+    ws = new WebSocketServer({host: "192.168.1.9", port: 9000});
 
 var clients = {};
-
-// Consts
-var USER_ID = "USER_ID";
-var MESSAGE = "MESSAGE";
-var CLIENT_LIST = "CLIENT_LIST";
 
 var clientConnect = function(connection, username) {
     console.log("connection opened from %s", username);
@@ -52,19 +48,19 @@ ws.on('connection', function connection(ws) {
 
         switch(message.type)
         {
-            case "CONNECT":
+            case constant.CONNECT:
                 userId = clientConnect(ws, message.username);
-                sendMessage(userId, userId, USER_ID);
+                sendMessage(userId, userId, constant.USER_ID);
                 var clientsList = getClientList();
-                sendMessage(null, clientsList, CLIENT_LIST);
+                sendMessage(null, clientsList, constant.CLIENT_LIST);
                 break;
-            case MESSAGE:
+            case constant.MESSAGE:
                 var body = {
                     username: clients[message.userId].username,
                     message: message.message
                 };
 
-                sendMessage(message.target, body, MESSAGE);
+                sendMessage(message.target, body, constant.MESSAGE);
                 break;
         }
     });
@@ -72,6 +68,8 @@ ws.on('connection', function connection(ws) {
     ws.on('close', function close() {
         console.log("%s disconnected", clients[userId].username);
         delete clients[userId];
-        sendMessage(null, getClientList(), CLIENT_LIST);
+        sendMessage(null, getClientList(), constant.CLIENT_LIST);
     });
 });
+
+console.log("Server listening on port 9000");

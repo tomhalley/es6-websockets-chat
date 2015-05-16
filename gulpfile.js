@@ -1,11 +1,12 @@
-var gulp = require('gulp');
-var concat = require("gulp-concat");
-var sass = require('gulp-sass');
+var gulp = require('gulp'),
+    concat = require("gulp-concat"),
+    sass = require('gulp-sass'),
+    livereload = require("gulp-livereload");
 
-var jsFiles = "./src/js/**/*.js",
+var jsFiles = ["./src/client/js/**/*.js", "./src/shared/**/*.js"],
     jsFilesDest = "./app/js/";
 
-var sassFiles = "./src/sass/**/_*.scss",
+var sassFiles = "./src/client/sass/**/_*.scss",
     sassFilesDest = "./app/css/";
 
 gulp.task("build:css", function() {
@@ -18,11 +19,12 @@ gulp.task("build:css", function() {
 gulp.task("build:js", function() {
     return gulp.src(jsFiles)
         .pipe(concat("main.js"))
-        .pipe(gulp.dest(jsFilesDest))
+        .pipe(gulp.dest(jsFilesDest));
 });
 
 gulp.task("build", function() {
-    gulp.start("build:js", "build:css");
+    gulp.start("build:js", "build:css")
+        .pipe(livereload());
 });
 
 gulp.task("watch:js", function() {
@@ -34,5 +36,6 @@ gulp.task("watch:css", function() {
 });
 
 gulp.task("watch", function() {
+    livereload.listen();
     gulp.start("watch:js", "watch:css");
 });

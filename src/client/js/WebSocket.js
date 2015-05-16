@@ -3,39 +3,36 @@ var clients = [];
 
 var refreshClientsList = function(updatedClients) {
     clients = updatedClients;
-    console.log(clients);
 
     $('#chatbox select').empty();
-    console.log(updatedClients);
     for(var userId in updatedClients) {
         $('#chatbox select').append("<option value='" + userId + "'>" + updatedClients[userId].username + "</option>");
     }
 };
 
 var connect = function(username) {
-    var socket = new WebSocket("ws://192.168.1.9:8000/");
+    var socket = new WebSocket("ws://192.168.1.9:9000/");
 
     socket.onopen = function(event) {
-        socket.send(JSON.stringify({type: "CONNECT", username: username}));
+        socket.send(JSON.stringify({type: constants.CONNECT, username: username}));
     };
 
     socket.onclose = function() {
-        alert("Connection lost");
+        alert("You were disconnected from the server");
     };
 
     socket.onmessage = function(event) {
-        console.log(event.data);
         var data = JSON.parse(event.data);
 
         switch(data.type)
         {
-            case "CLIENT_LIST":
+            case constants.CLIENT_LIST:
                 refreshClientsList(data.body);
                 break;
-            case "USER_ID":
+            case constants.USER_ID:
                 userId = data.body;
                 break;
-            case "MESSAGE":
+            case constants.MESSAGE:
                 alert(data.body.username + ": " + data.body.message);
                 break;
         }
@@ -50,14 +47,18 @@ var connect = function(username) {
         socket.close()
     };
 
-    $(document).on('dblclick', 'option', function() {
-        var targetUserId = $(this).val();
-        console.log(userId);
+    $("#send-message").click(function(e) {
+        console.log("Form submitted");
+        e.preventDefault();
 
-        var message = prompt("Message", "");
+        var targetUserId = $("#chatbox").find('select :selected').val();
+
+        console.log(targetUserId);
+
+        var message = $("#message").val();
 
         var obj = {
-            type: "MESSAGE",
+            type: constants.MESSAGE,
             target: targetUserId,
             userId: userId,
             message: message
